@@ -1,12 +1,7 @@
 "use strict";
 
-/** DICE
- * user should be able to roll the die
- * user should have a bag of dice that holds dice
- */
-
 /**
- * Represents a singlular die.
+ * Represents a singlular die. Can be rolled.
  * @class Die
  */
 class Die {
@@ -16,21 +11,37 @@ class Die {
    */
   constructor(sides = 6) {
     this.sides = sides;
-    // TODO: add roll history on die
+    // TODO: implement timesRolled in roll() function
+    this.timesRolled = 0;
+    this.history = {};
+    // TODO: add roll history on die using calculated literal properties on objects (1: roll, 2: roll,)
     // TODO: add unique id on die
   }
 
+  // TODO: implement static Die.create() function
+  static create(num = 1, sides = 6) {
+    let dice = [];
+    for (let i = 0; i < num; i++) {
+      let d = new Die(sides);
+      dice.push(d);
+    }
+    return dice;
+  }
+
+
   /**
-   * Rolls the die once
+   * Rolls the die once and returns the result
    * @return {number} Numerical result of the roll 
    */
   roll() {
-    return Math.floor(Math.random() * this.sides) + 1;
+    const result = Math.floor(Math.random() * this.sides) + 1
+    console.debug(`roll() ${this.sides} sided die => ${result}`);
+    return result;
   }
 
   /**
-   * Rolls the die *n* times
-   * @param {number} n - number of times the die is being rolled
+   * Rolls the die *n* times, calling {@link Die.roll() .roll()} each time.
+   * @param {number} n - Number of rolls
    * @return {number[]} Array of numbers representing the results of the rolls
    */
   rollN(n) {
@@ -42,14 +53,25 @@ class Die {
     return rolls;
   }
 
+  addTo(bag) {
+    bag.insert(this);
+  }
+
+  // TODO: getter for the roll history
+  // TODO: setter for the roll history
+
   // TODO: function that returns which bag the die is in
   whichBag() { }
   // TODO: function that returns which player owns the die
   whichPlayer() { }
 }
 
-class Bag {
-  /** Creates an instance of Bag. */
+/**
+ * A bag of dice. Contains {@link Die} objects.
+ * @class DiceBag
+ */
+class DiceBag {
+  /** Creates an instance of DiceBag. */
   constructor() {
     /**
      * Array containing dice in the bag
@@ -57,7 +79,7 @@ class Bag {
      */
     this.contents = [];
   }
-
+  // TODO: create getter and setter for the sides in the bag
   /**
    * Insert a Die object into the bag.
    * Technically supports inserting multiple dice via rest/spread operators.
@@ -69,10 +91,10 @@ class Bag {
 
   /**
    * Fill the bag with an array of Die objects.
-   * @param {Die[]} dice - array of Die objects to fill the bag with.
+   * @param {Die[]} diceArray - array of Die objects to fill the bag with.
    */
-  fill(dice) {
-    this.contents.push(...dice);
+  fill(diceArray) {
+    this.contents.push(...diceArray);
   }
 
   /**
@@ -82,10 +104,38 @@ class Bag {
   empty() {
     this.contents = [];
   }
+
+  /**
+   * Rolls all the dice in a bag.
+   * Returns an array of numbers with the roll results. 
+   * @return {*} Array of numbers representing the roll results
+   */
+  rollAll() {
+    let results = [];
+    for (const d of this.contents) {
+      let roll = d.roll();
+      results.push(roll);
+    }
+    return results;
+  }
+
+  /**
+   * Rolls all the dice in a bag *n* times, calling {@link DiceBag.rollAll() rollAll()} each time.
+   * @param {number} n - number of times to roll each dice in the bag
+   * @return {[number[]]} Array nesting *n* arrays of roll results
+   */
+  rollAllN(n) {
+    const results = [];
+    for (let i = 0; i < n; i++) {
+      const rolls = this.rollAll();
+      results.push(rolls);
+    }
+    return results;
+  }
 }
 
 class Player {
-  // TODO: assign bag to a player]]\
+  // TODO: assign bag to a player
 
 }
 
