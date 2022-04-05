@@ -1,24 +1,18 @@
 "use strict";
 
-/* IMPORTANT: I know that the singular of dice is die. I'll mainly use dice
-  the plural, just as a way of keeping things consistent. */
-
 /** DICE
- * user should be able to roll the dice
+ * user should be able to roll the die
  * user should have a bag of dice that holds dice
  */
 
 /**
  * Represents a singlular die.
- * It's called Dice. I know, it's plural. Get over it.
- * @class Dice
+ * @class Die
  */
-
-// TODO: change Dice to Die
-class Dice {
+class Die {
   /**
-   * Creates an instance of Dice.
-   * @param {number} [sides=6] - number of sides the dice has (defaults to 6)
+   * Creates an instance of Die.
+   * @param {number} [sides=6] - number of sides the die has (defaults to 6)
    */
   constructor(sides = 6) {
     this.sides = sides;
@@ -55,28 +49,44 @@ class Dice {
 }
 
 class Bag {
-  /**
-   * Creates an instance of Bag.
-   */
+  /** Creates an instance of Bag. */
   constructor() {
     /**
-     * @type {Dice[]} contents
+     * Array containing dice in the bag
+     * @type {Die[]}
      */
     this.contents = [];
   }
 
   /**
-   *
-   *
-   * @param {Dice} dice - Dice objects to fill the bag with.
+   * Insert a Die object into the bag.
+   * Technically supports inserting multiple dice via rest/spread operators.
+   * @param {Die} die - the Die object being inserted into the bag.
    */
-  fill(...dice) {
-    this.contents = dice;
+  insert(...die) {
+    this.contents.push(...die);
+  }
+
+  /**
+   * Fill the bag with an array of Die objects.
+   * @param {Die[]} dice - array of Die objects to fill the bag with.
+   */
+  fill(dice) {
+    this.contents.push(...dice);
+  }
+
+  /**
+   * Empties the bag's contents of all dice.
+   * The contents are completely reset.
+   */
+  empty() {
+    this.contents = [];
   }
 }
 
 class Player {
-  // TODO: assign bag to a player
+  // TODO: assign bag to a player]]\
+
 }
 
 class Game { }
