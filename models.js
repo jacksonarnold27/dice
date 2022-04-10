@@ -11,29 +11,46 @@ class Die {
    */
   constructor(sides = 6) {
     this.sides = sides;
-    // TODO: implement timesRolled in roll() function
     this.timesRolled = 0;
     this.history = {};
     // TODO: add roll history on die using calculated literal properties on objects (1: roll, 2: roll,)
     // TODO: add unique id on die
   }
 
-  // TODO: implement static Die.create() function
-  static create(num = 1, sides = 6) {
-    let dice = [];
-    for (let i = 0; i < num; i++) {
-      let d = new Die(sides);
-      dice.push(d);
+  /**
+   * Creates a Die or an array of Die objects.
+   * @param {number} [sides=6] - *(optional, defaults to 6)* number of sides the die has
+   * @param {number} [amount=1] - *(optional, defaults to 1)* number of dice created
+   * @return {Die|Die[]} returns a Die object by default, returns an array of Die objects if creating multiple
+   */
+  static create(sides = 6, amount = 1) {
+    if (amount === 1) {
+      console.debug(`create() ${sides}-sided die`);
+      return new Die(sides);
     }
-    return dice;
+    else {
+      let dice = [];
+      console.debug(`create() ${amount} ${sides}-sided dice`);
+      for (let i = 0; i < amount; i++) {
+        let d = new Die(sides);
+        dice.push(d);
+      }
+      return dice;
+    }
   }
 
+  static cube() { return new Die(6) }
+  static d12() { return new Die(12) }
+  static d20() { return new Die(20) }
 
+  // TODO: condesnce roll and rollN functions into 1 function, roll with default parameter 1 (either returns a number or an array of numbers)
+  // TODO: have roll function add roll data to history, calling new private _makeHistory function
   /**
    * Rolls the die once and returns the result
    * @return {number} Numerical result of the roll 
    */
   roll() {
+    this.timesRolled++;
     const result = Math.floor(Math.random() * this.sides) + 1
     console.debug(`roll() ${this.sides} sided die => ${result}`);
     return result;
@@ -44,26 +61,44 @@ class Die {
    * @param {number} n - Number of rolls
    * @return {number[]} Array of numbers representing the results of the rolls
    */
-  rollN(n) {
+  rollN(amount) {
     const rolls = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < amount; i++) {
       const roll = this.roll();
       rolls.push(roll);
     }
     return rolls;
   }
 
-  addTo(bag) {
-    bag.insert(this);
-  }
+  /**
+   * Adds the die to a given DiceBag.
+   * @param {DiceBag} bag - the {@link DiceBag} object to insert this die into.
+   */
+  addTo(bag) { bag.insert(this) }
 
   // TODO: getter for the roll history
   // TODO: setter for the roll history
 
   // TODO: function that returns which bag the die is in
-  whichBag() { }
+  // whichBag() { }
   // TODO: function that returns which player owns the die
-  whichPlayer() { }
+  // whichPlayer() { }
+}
+
+class WeightedDie extends Die { }
+
+
+/**
+ * A Die object that is bound to a range between a min and max value.
+ * 
+ * ***EX***: new BoundedDie(3, 7) refers to a die that can only roll a number between 3 and 7
+ * @extends {Die}
+ */
+class BoundedDie extends Die {
+  constructor(min, max) {
+    this.min = min;
+    this.max = max;
+  }
 }
 
 /**
@@ -79,31 +114,30 @@ class DiceBag {
      */
     this.contents = [];
   }
-  // TODO: create getter and setter for the sides in the bag
+  // TODO: create getter and setter for the sides of each die in the bag
+
+  // TODO: add try/catch for functions to handle errors appropriately
   /**
    * Insert a Die object into the bag.
-   * Technically supports inserting multiple dice via rest/spread operators.
-   * @param {Die} die - the Die object being inserted into the bag.
+   * 
+   * Supports inserting multiple dice via rest/spread operators.
+   * @param {Die} die - the {@link Die} object being inserted into the bag.
    */
-  insert(...die) {
-    this.contents.push(...die);
-  }
+  insert(...die) { this.contents.push(...die) }
 
   /**
    * Fill the bag with an array of Die objects.
    * @param {Die[]} diceArray - array of Die objects to fill the bag with.
    */
-  fill(diceArray) {
-    this.contents.push(...diceArray);
-  }
+  fill(diceArray) { this.contents.push(...diceArray) }
 
   /**
    * Empties the bag's contents of all dice.
-   * The contents are completely reset.
+   * The contents are reset to an empty array.
    */
-  empty() {
-    this.contents = [];
-  }
+  empty() { this.contents = [] }
+
+  roll(index, n = 1) { return this.contents[index].roll() }
 
   /**
    * Rolls all the dice in a bag.
@@ -124,9 +158,9 @@ class DiceBag {
    * @param {number} n - number of times to roll each dice in the bag
    * @return {[number[]]} Array nesting *n* arrays of roll results
    */
-  rollAllN(n) {
+  rollAllN(amount) {
     const results = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < amount; i++) {
       const rolls = this.rollAll();
       results.push(rolls);
     }
@@ -134,9 +168,8 @@ class DiceBag {
   }
 }
 
-class Player {
-  // TODO: assign bag to a player
 
-}
+// TODO: assign bag to a player
+class Player { }
 
 class Game { }
