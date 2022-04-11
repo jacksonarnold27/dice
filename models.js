@@ -10,6 +10,7 @@ class Die {
    * @param {number} [sides=6] - number of sides the die has (defaults to 6)
    */
   constructor(sides = 6) {
+    console.debug(`new Die(${sides})`);
     this.sides = sides;
     this.timesRolled = 0;
     this.history = {};
@@ -24,24 +25,24 @@ class Die {
    */
   #addToRollHistory(roll) {
     this.history[this.timesRolled] = roll;
-    console.debug(`#addToHistory() ${this.timesRolled}: ${roll}`);
+    // console.debug(`#addToHistory() ${this.timesRolled}: ${roll}`);
   }
 
   /**
    * Creates a Die or an array of Die objects.
    * @param {number} [sides=6] - *(optional, defaults to 6)* number of sides the die has
-   * @param {number} [amount=1] - *(optional, defaults to 1)* number of dice created
+   * @param {number} [n=1] - *(optional, defaults to 1)* number of dice created
    * @return {Die|Die[]} returns a Die object by default, returns an array of Die objects if creating multiple
    */
-  static create(sides = 6, amount = 1) {
-    if (amount === 1) {
+  static create(sides = 6, n = 1) {
+    if (n === 1) {
       console.debug(`create() ${sides}-sided die`);
       return new Die(sides);
     }
     else {
       let dice = [];
-      console.debug(`create() ${amount} ${sides}-sided dice`);
-      for (let i = 0; i < amount; i++) {
+      console.debug(`create() ${sides}-sided dice (${n})`);
+      for (let i = 0; i < n; i++) {
         let d = new Die(sides);
         dice.push(d);
       }
@@ -49,14 +50,13 @@ class Die {
     }
   }
 
+  // TEMPLATES FOR EASY DIE CREATION
   static cube() { return new Die(6) }
   static d12() { return new Die(12) }
   static d20() { return new Die(20) }
 
-  // TODO: condense roll and rollN functions into 1 function, roll with default parameter 1 (either returns a number or an array of numbers)
-
   /**
-   * Rolls the die once and returns the result
+   * Rolls the die once and returns the result.
    * @return {number} Numerical result of the roll 
    */
   roll() {
@@ -69,12 +69,12 @@ class Die {
 
   /**
    * Rolls the die *n* times, calling {@link Die.roll() .roll()} each time.
-   * @param {number} n - Number of rolls
+   * @param {number} n - Number of times rolled
    * @return {number[]} Array of numbers representing the results of the rolls
    */
-  rollN(amount) {
+  rollN(n) {
     const rolls = [];
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < n; i++) {
       const roll = this.roll();
       rolls.push(roll);
     }
@@ -88,18 +88,16 @@ class Die {
   addTo(bag) { bag.insert(this) }
 
   // TODO: function that returns which bag the die is in
-  // whichBag() { }
+  // bag() { }
   // TODO: function that returns which player owns the die
-  // whichPlayer() { }
+  // player() { }
 }
-
-class WeightedDie extends Die { }
-
 
 /**
  * A Die object that is bound to a range between a min and max value.
  * 
- * ***EX***: new BoundedDie(3, 7) refers to a die that can only roll a number between 3 and 7
+ * ***EX***: new BoundedDie(3, 7) -> refers to a die that can only roll a number between 3 and 7
+ * @class BoundedDie
  * @extends {Die}
  */
 class BoundedDie extends Die {
@@ -125,32 +123,54 @@ class DiceBag {
   // TODO: create getter and setter for the sides of each die in the bag
 
   // TODO: add try/catch for functions to handle errors appropriately
+
+
+  /**
+   * Returns the Die at a given index in a DiceBag.
+   * @param {number} index - index of Die
+   * @return {Die} Die object
+   */
+  at(index) { return this.contents[index]; }
+
   /**
    * Insert a Die object into the bag.
    * 
    * Supports inserting multiple dice via rest/spread operators.
    * @param {Die} die - the {@link Die} object being inserted into the bag.
    */
-  insert(...die) { this.contents.push(...die) }
+  insert(...die) { this.contents.push(...die); }
 
   /**
    * Fill the bag with an array of Die objects.
    * @param {Die[]} diceArray - array of Die objects to fill the bag with.
    */
-  fill(diceArray) { this.contents.push(...diceArray) }
+  fill(diceArray) { this.contents.push(...diceArray); }
 
   /**
    * Empties the bag's contents of all dice.
    * The contents are reset to an empty array.
    */
-  empty() { this.contents = [] }
+  empty() { this.contents = []; }
 
+  /**
+   * Rolls the die at a given index.
+   * @param {number} index - index of the die to be rolled
+   * @return {number} Numerical result of the roll
+   */
   roll(index) { return this.contents[index].roll(); }
+
+  /**
+   * Rolls the die *n* times at a given index.
+   * @param {number} index - index of the die to be rolled
+   * @param {number} n - Number of times rolled
+   * @return {number} Array of numbers representing roll results
+   */
+  rollN(index, n) { return this.contents[index].rollN(n); }
 
   /**
    * Rolls all the dice in a bag.
    * Returns an array of numbers with the roll results. 
-   * @return {*} Array of numbers representing the roll results
+   * @return {number[]} Array of numbers representing the roll results
    */
   rollAll() {
     let results = [];
@@ -164,15 +184,25 @@ class DiceBag {
   /**
    * Rolls all the dice in a bag *n* times, calling {@link DiceBag.rollAll() rollAll()} each time.
    * @param {number} n - number of times to roll each dice in the bag
-   * @return {[number[]]} Array nesting *n* arrays of roll results
+   * @return {number[][]} Array nesting *n* arrays of roll results
    */
-  rollAllN(amount) {
+  rollAllN(n) {
     const results = [];
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < n; i++) {
       const rolls = this.rollAll();
       results.push(rolls);
     }
     return results;
+  }
+
+  /**
+   * Rolls all dice in the bag and returns the sum of the results.
+   * @return {number} Numerical sum of the dice rolls
+   */
+  rollAllSum() {
+    let rolls = this.rollAll();
+    let sum = rolls.reduce((prev, curr) => prev + curr, 0);
+    return sum;
   }
 }
 
