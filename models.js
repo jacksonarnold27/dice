@@ -13,8 +13,18 @@ class Die {
     this.sides = sides;
     this.timesRolled = 0;
     this.history = {};
-    // TODO: add roll history on die using calculated literal properties on objects (1: roll, 2: roll,)
+
     // TODO: add unique id on die
+  }
+
+  /**
+   * Adds a roll to the Die's roll history.
+   * @private
+   * @param {number} roll - the roll result to add to the die's history
+   */
+  #addToRollHistory(roll) {
+    this.history[this.timesRolled] = roll;
+    console.debug(`#addToHistory() ${this.timesRolled}: ${roll}`);
   }
 
   /**
@@ -43,8 +53,8 @@ class Die {
   static d12() { return new Die(12) }
   static d20() { return new Die(20) }
 
-  // TODO: condesnce roll and rollN functions into 1 function, roll with default parameter 1 (either returns a number or an array of numbers)
-  // TODO: have roll function add roll data to history, calling new private _makeHistory function
+  // TODO: condense roll and rollN functions into 1 function, roll with default parameter 1 (either returns a number or an array of numbers)
+
   /**
    * Rolls the die once and returns the result
    * @return {number} Numerical result of the roll 
@@ -53,6 +63,7 @@ class Die {
     this.timesRolled++;
     const result = Math.floor(Math.random() * this.sides) + 1
     console.debug(`roll() ${this.sides} sided die => ${result}`);
+    this.#addToRollHistory(result);
     return result;
   }
 
@@ -75,9 +86,6 @@ class Die {
    * @param {DiceBag} bag - the {@link DiceBag} object to insert this die into.
    */
   addTo(bag) { bag.insert(this) }
-
-  // TODO: getter for the roll history
-  // TODO: setter for the roll history
 
   // TODO: function that returns which bag the die is in
   // whichBag() { }
@@ -137,7 +145,7 @@ class DiceBag {
    */
   empty() { this.contents = [] }
 
-  roll(index, n = 1) { return this.contents[index].roll() }
+  roll(index) { return this.contents[index].roll(); }
 
   /**
    * Rolls all the dice in a bag.
