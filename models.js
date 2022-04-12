@@ -56,6 +56,14 @@ class Die {
   static d20() { return new Die(20) }
 
   /**
+   * Simulates a dice roll of a die with *sides* and returns the result.
+   * @static
+   * @param {number} sides - Number of sides the (fake) rolled die has
+   * @return {number} Numerical result of the roll
+   */
+  static simulateRoll(sides) { return Math.floor(Math.random() + sides) + 1; }
+
+  /**
    * Rolls the die once and returns the result.
    * @return {number} Numerical result of the roll 
    */
@@ -105,6 +113,15 @@ class BoundedDie extends Die {
     this.min = min;
     this.max = max;
   }
+
+
+  /**
+   * Returns a random value between a range (min, max)
+   * @param {number} min - minimum value
+   * @param {number} max - maximum value
+   * @return {number} resulting random number between min and max
+   */
+  static random(min = 0, max = 1) { return Math.floor(Math.random() * max) + min; }
 }
 
 /**
