@@ -1,8 +1,9 @@
 "use strict";
 
-// EX: https://cardgames.io/yahtzee/
-// RULES: https://www.dicegamedepot.com/yahtzee-rules/
-// RULES: https://www.hasbro.com/common/instruct/yahtzee.pdf
+// EX:      https://cardgames.io/yahtzee/
+// EX2:     https://cardgames.io/yahtzee/statistics/
+// RULES:   https://www.dicegamedepot.com/yahtzee-rules/
+// BOOKLET: https://www.hasbro.com/common/instruct/yahtzee.pdf
 
 /** Scorecard Rules:
  * Upper Section:
@@ -21,31 +22,68 @@ class DiceCup extends DiceBag {
   }
 }
 
-class Yahtzee { }
+class Player {
+  constructor() {
+    this.name = "";
+    this.number;
+    this.scorecard = {
+      ones: 0,
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0,
+      threeOfAKind: 0,
+      fourOfAKind: 0,
+      fullHouse: 0,
+      smallStraight: 0,
+      largeStraight: 0,
+      yahtzee: 0,
+      chance: 0,
+      totalScore: 0
+    };
+
+  }
+}
+
+class Scorecard {
+
+}
+
+
+
+
+class Yahtzee {
+  constructor(params) {
+
+  }
+  static isThreeOfAKind() {
+
+  }
+  static isFourOfAKind() {
+
+  }
+  static isFullHouse() {
+
+  }
+  static isSmallStraight() {
+
+  }
+  static isLargeStraight() {
+
+  }
+  static isYahtzee() {
+
+  }
+}
 
 
 class DiceRoll {
   constructor() {
     this.roll = [];
-  }
-  isThreeOfAKind() {
 
   }
-  isFourOfAKind() {
 
-  }
-  isFullHouse() {
-
-  }
-  isSmallStraight() {
-
-  }
-  isLargeStraight() {
-
-  }
-  isYahtzee() {
-
-  }
   static checkRoll() {
 
   }
@@ -61,4 +99,3 @@ class DiceRoll {
 
 
 // TODO: assign bag to a player
-class Player { }
