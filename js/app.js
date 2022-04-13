@@ -1,5 +1,7 @@
 "use strict";
 
+// TODO: YAHTZEE
+
 let baggie = new DiceBag();
 let normalDie = new Die();
 let luckyDie = new Die(7);
@@ -16,3 +18,8 @@ for (let i = 0; i < 10; i++) {
   dice.push(d);
 }
 bag.fill(dice);
+
+// on DOM load
+$(function () {
+
+})

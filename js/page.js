@@ -1,0 +1,3 @@
+"use strict";
+
+// THIS FILE IS FOR PAGE-RELATED FUNCTIONS

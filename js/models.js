@@ -227,4 +227,4 @@ class DiceBag {
 // TODO: assign bag to a player
 class Player { }
 
-class Game { }
+class Yahtzee { }
