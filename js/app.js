@@ -1,7 +1,5 @@
 "use strict";
 
-// TODO: YAHTZEE
-
 const $newDieButton = $('.new-die-btn');
 const $newDiceBagButton = $('.new-dicebag-btn');
 
