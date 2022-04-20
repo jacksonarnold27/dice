@@ -1,26 +1,31 @@
 "use strict";
 
-const $newDieButton = $('.new-die-btn');
-const $newDiceBagButton = $('.new-dicebag-btn');
-
-let baggie = new DiceBag();
-let normalDie = new Die();
-let luckyDie = new Die(7);
-let bigDie = new Die(20);
-let coin = new Die(2);
-
-let arr = [bigDie, luckyDie, coin];
+const $newDiceBagButton = $('#new-dicebag-btn');
+const $newDieButton = $('#new-die-btn');
+const $resetDiceButton = $('#reset-dice-btn');
 
 let bag = new DiceBag();
-let dice = [];
-for (let i = 0; i < 10; i++) {
-  let sides = Math.floor(Math.random() * (i + 2)) + 3;
-  let d = new Die(sides);
-  dice.push(d);
-}
-bag.fill(dice);
+
+
+
+
 
 // on DOM load
-$(function () {
+// $(function () {
+//   for (let i = 0; i < 10; i++) {
+//     let d = new Die();
+//     bag.insert(d);
+//   }
+//   bag.contents.forEach((d) => { Die.render(d.roll()) })
+// })
 
-})
+function renderNewDie(evt) {
+  console.debug("renderNewDie", evt);
+  let d = new Die();
+  bag.insert(d);
+  d.roll();
+  d.renderLastRoll();
+}
+
+
+$newDieButton.on("click", renderNewDie);

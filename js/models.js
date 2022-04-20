@@ -51,17 +51,33 @@ class Die {
   }
   // TEMPLATES FOR EASY DIE CREATION
   static cube() { return new Die(6) }
+  static d4() { return new Die(4) }
+  static d6() { return new Die(6) }
   static d8() { return new Die(8) }
   static d12() { return new Die(12) }
   static d20() { return new Die(20) }
 
   /**
-   * Simulates a dice roll of a die with *sides* and returns the result.
+   * Simulates a dice roll of a die with *max* sides and returns the result.
+   * 
+   * Functionally exactly the same as {@link Die.simulate()}
    * @static
-   * @param {number} sides - Number of sides the (fake) rolled die has
-   * @return {number} Numerical result of the roll
+   * @param {number} max - Number of sides the (fake) rolled die has
+   * @return {number} Numerical result of the roll, **Starts at 1**, *not* 0
    */
-  static simulateRoll(sides) { return Math.floor(Math.random() + sides) + 1; }
+  static random(max) { return Math.floor(Math.random() + max) + 1; }
+
+  /**
+   * Simulates a dice roll, using a die with param *sides*.
+   * 
+   * Functionally exactly the same as {@link Die.random()}
+   * @static
+   * @param {number} sides sides the simulated die has
+   * @return {number} Numerical result of the roll, **starts at 1**, *not* 0
+   */
+  static simulate(sides) {
+    return Math.floor(Math.random() + sides) + 1;
+  }
 
   /**
    * Rolls the die once and returns the result.
@@ -88,11 +104,38 @@ class Die {
     return rolls;
   }
 
+  // TODO: invert function which toggles the die's isInverted boolean
+  /**
+   * Toggles the die's isInverted boolean between true and false.
+   * @return the new value of isInverted (*true* or *false*)
+   */
+  invert() {
+    this.isInverted = !this.isInverted;
+    return this.isInverted;
+  }
+
   /**
    * Adds the die to a given DiceBag.
    * @param {DiceBag} bag - the {@link DiceBag} object to insert this die into.
    */
   addToBag(bag) { bag.insert(this) }
+
+  /**
+   * Renders a given dice *roll* on the screen.
+   *
+   * @static
+   * @param {number} roll the roll to be rendered (face number of die)
+   */
+  static render(roll) {
+    try {
+      const svg = this.isInverted ? getDiceSvg(roll, true) : getDiceSvg(roll);
+      const html = generateSvgHTML(svg);
+      insertDiceHTML(html);
+    } catch (err) {
+      console.error(err.name);
+      console.error(err.stack);
+    }
+  }
 
   /**
    * Renders the roll at the given index in the die's history. The roll is added to the page.

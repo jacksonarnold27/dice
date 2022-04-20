@@ -14,11 +14,14 @@ function getDiceSvg(roll, inverted = false) {
   let inv = "";
   if (!!inverted) { inv = "-inverted"; } // Check for inverted param to add to file name
   if (roll >= 1 && roll <= 6) { filenum = words[roll - 1]; } // if the roll is between 1 and 6, add the corresponding roll to file name
-  // TODO: incorporate error SVG and error handling
   else {
     throw new Error('Roll not between 1 and 6.');
   }
   return `img/d6-faces-${filenum + inv}.svg`;
+}
+
+function getPerspectiveSvg() {
+  // TODO: make function similar to getDiceSvg, but for perspective dice and numbered perspective dice.
 }
 
 function generateSvgHTML(svgString) {
@@ -28,7 +31,5 @@ function generateSvgHTML(svgString) {
 }
 
 function insertDiceHTML(htmlString) {
-  $(htmlString).appendTo('.row');
+  $(htmlString).appendTo('.dice-row');
 }
-
-

@@ -1,1 +1,1 @@
-all dice svgs are downloaded from game-icons.net and used under Creative Commons License 3.0
+All dice svgs are from game-icons.net and used under Creative Commons License 3.0
