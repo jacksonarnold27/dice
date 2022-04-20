@@ -15,7 +15,7 @@ class Die {
     this.timesRolled = 0;
     this.history = {};
     this.isInverted = false;
-    // TODO: add unique id on die
+    // TODO: add unique id on die?
   }
 
   /**
@@ -101,9 +101,9 @@ class Die {
   renderRoll(index) {
     try {
       if (index > this.timesRolled) {
-        throw new Error("Roll history index is too high; it doesn't exist.");
+        throw new Error("Roll history index doesn't exist.");
       }
-      const svg = getDiceSvg(this.history[index]);
+      const svg = this.isInverted ? getDiceSvg(this.history[index], true) : getDiceSvg(this.history[index]);
       const html = generateSvgHTML(svg);
       insertDiceHTML(html);
     } catch (err) {
@@ -130,13 +130,8 @@ class DiceBag {
      * @type {Die[]}
      */
     this.contents = [];
-    this.owner = null;
-
+    this.player = null;
   }
-
-  // TODO: add try/catch for functions to handle errors appropriately
-
-  static create(...dice) { }
 
   /**
    * Returns the Die at a given index in a DiceBag.
@@ -195,6 +190,14 @@ class DiceBag {
   }
 }
 
+class Player {
+  constructor(name) {
+
+  }
+}
+
+
+
 
 /**
  * A Die object that is bound to a range between a min and max value.
@@ -218,3 +221,5 @@ class BoundedDie extends Die {
    */
   static random(min = 0, max = 1) { return Math.floor(Math.random() * max) + min; }
 }
+
+

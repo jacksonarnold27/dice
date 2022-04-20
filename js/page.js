@@ -2,6 +2,12 @@
 
 // THIS FILE IS FOR IMAGE-RELATED FUNCTIONS
 
+/**
+ * Returns the filepath for the SVG representing the given dice roll.
+ * @param {number} roll a number between ***1 and 6***
+ * @param {boolean} [inverted=false] *(optional)* boolean -- **defaults to *false***
+ * @return {string} file path to the chosen dice SVG 
+ */
 function getDiceSvg(roll, inverted = false) {
   const words = ['one', 'two', 'three', 'four', 'five', 'six'];
   let filenum = "";
@@ -24,3 +30,5 @@ function generateSvgHTML(svgString) {
 function insertDiceHTML(htmlString) {
   $(htmlString).appendTo('.row');
 }
+
+
