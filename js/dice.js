@@ -1,0 +1,4 @@
+"use strict";
+
+// THIS FILE IS FOR DICE-RELATED FUNCTIONS
+

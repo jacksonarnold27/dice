@@ -51,6 +51,7 @@ class Die {
   }
   // TEMPLATES FOR EASY DIE CREATION
   static cube() { return new Die(6) }
+  static d8() { return new Die(8) }
   static d12() { return new Die(12) }
   static d20() { return new Die(20) }
 
@@ -92,11 +93,6 @@ class Die {
    * @param {DiceBag} bag - the {@link DiceBag} object to insert this die into.
    */
   addToBag(bag) { bag.insert(this) }
-
-  // TODO: function that returns which bag the die is in
-  // bag() { }
-  // TODO: function that returns which player owns the die
-  // player() { }
 }
 
 /**
@@ -117,9 +113,7 @@ class DiceBag {
 
   // TODO: add try/catch for functions to handle errors appropriately
 
-  static create(...dice) {
-
-  }
+  static create(...dice) { }
 
   /**
    * Returns the Die at a given index in a DiceBag.

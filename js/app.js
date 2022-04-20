@@ -3,17 +3,6 @@
 const $newDieButton = $('.new-die-btn');
 const $newDiceBagButton = $('.new-dicebag-btn');
 
-
-
-
-
-
-
-
-
-
-
-
 let baggie = new DiceBag();
 let normalDie = new Die();
 let luckyDie = new Die(7);
