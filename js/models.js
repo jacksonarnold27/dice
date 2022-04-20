@@ -14,7 +14,7 @@ class Die {
     this.sides = sides;
     this.timesRolled = 0;
     this.history = {};
-
+    this.isInverted = false;
     // TODO: add unique id on die
   }
 
@@ -93,6 +93,29 @@ class Die {
    * @param {DiceBag} bag - the {@link DiceBag} object to insert this die into.
    */
   addToBag(bag) { bag.insert(this) }
+
+  /**
+   * Renders the roll at the given index in the die's history. The roll is added to the page.
+   * @param {number} index **Starts at 1**--which roll in the die's history to render. 
+   */
+  renderRoll(index) {
+    try {
+      if (index > this.timesRolled) {
+        throw new Error("Roll history index is too high; it doesn't exist.");
+      }
+      const svg = getDiceSvg(this.history[index]);
+      const html = generateSvgHTML(svg);
+      insertDiceHTML(html);
+    } catch (err) {
+      console.error(err.name);
+      console.error(err.stack);
+    }
+  }
+
+  /**
+   * Render's the last roll in the die's history.
+   */
+  renderLastRoll() { this.renderRoll(this.timesRolled); }
 }
 
 /**

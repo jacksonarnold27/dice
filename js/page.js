@@ -2,7 +2,7 @@
 
 // THIS FILE IS FOR IMAGE-RELATED FUNCTIONS
 
-function getD6SVG(roll, inverted = false) {
+function getDiceSvg(roll, inverted = false) {
   const words = ['one', 'two', 'three', 'four', 'five', 'six'];
   let filenum = "";
   let inv = "";
@@ -15,12 +15,12 @@ function getD6SVG(roll, inverted = false) {
   return `img/d6-faces-${filenum + inv}.svg`;
 }
 
-function generateSVGHTML(svg) {
-  return `
-  <div class="svg-container">
-    <object type="image/svg+xml" data="${svg}" width="100%" height="100%" class="svg-content">
-    </object>
+function generateSvgHTML(svgString) {
+  return `<div class="col">
+  <object type="image/svg+xml" data="${svgString}" class="img-fluid"></object>
   </div>`;
 }
 
-function addHTMLTo(html)
+function insertDiceHTML(htmlString) {
+  $(htmlString).appendTo('.row');
+}
