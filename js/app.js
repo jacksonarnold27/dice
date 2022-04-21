@@ -9,7 +9,6 @@ let bag = new DiceBag();
 
 
 
-
 // on DOM load
 // $(function () {
 //   for (let i = 0; i < 10; i++) {
@@ -25,7 +24,15 @@ function renderNewDie(evt) {
   bag.insert(d);
   d.roll();
   d.renderLastRoll();
+  $resetDiceButton.prop('disabled', false);
 }
 
 
 $newDieButton.on("click", renderNewDie);
+
+$resetDiceButton.on("click", function (evt) {
+  console.debug("resetDiceButton callback", evt);
+  $('.dice-row').empty();
+  bag.empty();
+  $resetDiceButton.prop('disabled', true);
+})

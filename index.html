@@ -6,30 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dice</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/models.js" defer></script>
   <script src="js/page.js" defer></script>
+  <script src="js/nav.js" defer></script>
   <script src="js/dice.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
-<body style='background-color: paleturquoise;'>
-
-<div id="position-relative">
+<body style='background-color: slategrey;'>
+  
+<div id="position-relative" class='border border-danger'>
   <!-- dice buttons  -->
-  <div class="d-grid m-5 px-5 gap-4 mx-auto" role="group" aria-label="Dice button container">
-    <button id="new-dicebag-btn" class="btn btn-lg btn-primary dice-btn" type="button">DiceBag</button>
-    <button id="new-die-btn" class="btn btn-lg btn-success dice-btn" type="button">New Die</button>
-    <button id="reset-dice-btn" class="btn btn-warning col-3 mx-auto" disabled="disabled">Reset</button>
+  <div class="container-fluid m-5 px-5 gap-4 mx-auto row-cols-6 border border-success" role="group" aria-label="Dice button container">
+    <!-- <button id="new-dicebag-btn" class="btn btn-lg btn-primary dice-btn" type="button">DiceBag</button> -->
+    <div class="btn-group btn-group-lg" role='group'>
+      <button id="new-die-btn" class="btn btn-success dice-btn col-12" type="button">New Die</button>
+      <button id="reset-dice-btn" class="btn btn-outline-warning mx-auto col-auto" disabled>
+        <i class='bi bi-arrow-clockwise'></i></button>
+      </div>
+      
+      <div class="container-fluid mx-auto player-dice-bag border">
+      </div>
   </div>
 
-  <br>
+
 
   <!-- dice container -->
-  <div class="container-auto mx-3 dice-container border border-3 border-dark bg-dark">
-    <div class="row row-cols-6 p-2 g-2 dice-row">
+    <div class="container-fluid mx-auto dice-container border border-3 border-secondary bg-dark">
+      <div class="row py-5 p-2 g-2 dice-row">
 
+      </div>
     </div>
-  </div>
   
 </div>
 
